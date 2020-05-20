@@ -12,12 +12,12 @@ main()
 
     echo "$dirs" | while read -r i
     do
-        files="$( find "$i" -mindepth 1 -maxdepth 1 -type f -printf "%f\n" | grep -E "jpg|mp4" | grep -Ev "\.part$" | sort )"
+        files="$( find "$i" -mindepth 1 -maxdepth 1 -type f -printf "%f\n" | egrep "jpg|mp4" | egrep -v "\.part$" | sort )"
         filesList=()
 
         while read -r j
         do
-            grep -Fxq "$j" "$loglog" || filesList+=( "$i/$j" )
+            fgrep -xq "$j" "$loglog" || filesList+=( "$i/$j" )
         done < <(echo "$files")
 
         if [ "$filesList" ]
