@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 base="$HOME/data/instagram"
-tmplog="temp.log"
+tmplog="tmp.log"
 loglog="log.log"
 
 main()
@@ -22,6 +22,7 @@ main()
 
         if [ "$filesList" ]
         then
+            touch "$tmplog"
             gpup -a "$i" "${filesList[@]}" | tee "$tmplog"
             cat "$tmplog" >> "usr_$i.log"
         fi
