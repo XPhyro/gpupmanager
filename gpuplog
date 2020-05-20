@@ -1,17 +1,20 @@
 #!/usr/bin/env sh
 
+loglog="log.log"
+tmplog="templog.log"
+
 main() {
     base="$HOME/data/instagram"
 
-    num=$(( "$( find "$base/.." -mindepth 1 -maxdepth 1 -type d -name "log*" -printf "%f\n" | sort | tail -n 1 | sed 's/log//' )" + 1 ))
+    num=$(( "$( find "$base/.." -mindepth 1 -maxdepth 1 -type d -name "log*" -printf "%f\n" | sort -V | tail -n 1 | sed 's/log//' )" + 1 ))
 
     mkdir "$base/../log$num" || return
-    cp "$base/log.log" "$base"/usr_*.log "$base/../log$num" || return
+    cp "$base/$loglog" "$base"/usr_*.log "$base/../log$num" || return
 
-    grep -E ':\sOK' "$base"/usr_*.log | awk '{print $2}' | sed -e 's/\:$//' -e 's/.*\///' >> "$base/log.log"
-    cat "$base/log.log" > "$base/logtemp.log"
-    cat "$base/logtemp.log" | sort > "$base/log.log"
-    rm "$base/logtemp.log" "$base"/usr_*.log
+    grep -E ':\sOK' "$base"/usr_*.log | awk '{print $2}' | sed -e 's/\:$//' -e 's/.*\///' >> "$base/$loglog"
+    cat "$base/$loglog" > "$base/$tmplog"
+    cat "$base/$tmplog" | sort > "$base/$loglog"
+    rm "$base/$tmplog" "$base"/usr_*.log
 }
 
 main
