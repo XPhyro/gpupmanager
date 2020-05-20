@@ -22,12 +22,8 @@ main()
 
         if [ "$filesList" ]
         then
-            touch "$tmplog"
-
             gpup -a "$i" "${filesList[@]}" | tee "$tmplog"
             cat "$tmplog" >> "usr_$i.log"
-
-            rm "$tmplog"
         fi
    done
 
