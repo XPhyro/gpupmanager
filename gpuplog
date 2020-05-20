@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+base="$HOME/data/instagram"
+
+num=$(( "$( find ~/data -mindepth 1 -maxdepth 1 -type d -name "log*" -printf "%f\n" | sort | tail -n 1 | sed 's/log//' )" + 1 ))
+cp "$base/log.log" "$base/usr_*.log" "$base/../log$num"
+
+grep -E ':\sOK' "$base/usr_*.log" | awk '{print $2}' | sed -e 's/\:$//' -e 's/.*\///' >> "$base/log.log"
+cat "$base/log.log" > "$base/logtemp.log"
+cat "$base/logtemp.log" | sort > "$base/log.log"
+rm "$base/logtemp.log" "$base/usr_*.log"

@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+base="$HOME/data/instagram"
+tmplog="temp.log"
+loglog="log.log"
+
+main()
+{
+    cd $base || return
+
+    dirs="$( find . -mindepth 1 -maxdepth 1 -type d | sed 's/\.\///' | sort )"
+
+    echo "$dirs" | while read -r i
+    do
+        files="$( find "$i" -mindepth 1 -maxdepth 1 -type f -printf "%f\n" | grep -E "jpg|mp4" | grep -Ev "\.part$" | sort )"
+        filesList=()
+
+        while read -r j
+        do
+            grep -Fxq "$j" "$loglog" || filesList+=( "$i/$j" )
+        done < <(echo "$files")
+
+        if [ "$filesList" ]
+        then
+            touch "$tmplog"
+
+            gpup -a "$i" "${filesList[@]}" | tee "$tmplog"
+            cat "$tmplog" >> "usr_$i.log"
+
+            rm "$tmplog"
+        fi
+   done
+
+   rm "$tmplog"
+}
+
+main
