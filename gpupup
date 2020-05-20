@@ -6,7 +6,7 @@ loglog="log.log"
 
 main()
 {
-    cd $base || return
+    cd "$base" || return
 
     dirs="$( find . -mindepth 1 -maxdepth 1 -type d | sed 's/\.\///' | sort )"
 
