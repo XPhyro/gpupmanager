@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-instatogpup
-instatogplog
+gpupup
+gpuplog
