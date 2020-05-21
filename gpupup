@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-base="$HOME/data/instagram"
+base="$HOME/data/ig"
 tmplog="tmp.log"
 loglog="log.log"
 
