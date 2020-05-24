@@ -8,6 +8,7 @@ main() {
     num=$(( "$( find "$base/../ig-log" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort -V | tail -n 1 )" + 1 ))
 
     mkdir "$base/../ig-log/$num" || return 1
+    touch "$base/$tmplog"
     cp "$base/$loglog" "$base"/usr_*.log "$base/$tmplog" "$base/../ig-log/$num" || return 1
 
     grep -E ':\sOK' "$base"/usr_*.log "$base/$tmplog" | awk '{print $2}' | sed -e 's/\:$//' -e 's/.*\///' >> "$base/$loglog"
