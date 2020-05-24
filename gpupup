@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 base="$HOME/data/ig"
-tmplog="tmp.log"
 loglog="log.log"
+tmplog="tmp.log"
 
 main()
 {
