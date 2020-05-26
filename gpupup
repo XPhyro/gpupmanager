@@ -28,7 +28,7 @@ main()
             while [ "$k" -le "$len" ]
             do
                 filesRange=()
-                for (( l = 0; l < chunk; l++ ))
+                for (( l = k; l < k + chunk; l++ ))
                 do
                     [ "$l" -gt "$len" ] && break
                     filesRange+=( "${filesList[$l]}" )
