@@ -3,6 +3,7 @@
 base="$HOME/data/ig"
 loglog="log.log"
 tmplog="tmp.log"
+chunk=200
 
 main()
 {
@@ -22,9 +23,28 @@ main()
 
         if [ "$filesList" ]
         then
-            touch "$tmplog"
-            gpup -a "$i" "${filesList[@]}" | tee "$tmplog"
-            cat "$tmplog" >> "usr_$i.log"
+            len="${#filesList[@]}"
+            k=1
+            while [ "$k" -le "$len" ]
+            do
+                filesRange=()
+                #for l in {$k..$(( k + chunk - 1 ))}
+                for (( l = 0; l < chunk; l++ ))
+                do
+                    [ "$l" -gt "$len" ] && break
+                    filesRange+=( "${filesList[$l]}" )
+                done
+
+                touch "$tmplog"
+                gpup -a "$i" "${filesRange[@]}" | tee "$tmplog"
+                cat "$tmplog" >> "usr_$i.log"
+
+                (( k+=chunk ))
+
+                echo "[GPUPUP]: Safe to cancel. (#$k)"
+            done
+
+            return 0
         fi
    done
 
