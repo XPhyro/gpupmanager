@@ -28,7 +28,6 @@ main()
             while [ "$k" -le "$len" ]
             do
                 filesRange=()
-                #for l in {$k..$(( k + chunk - 1 ))}
                 for (( l = 0; l < chunk; l++ ))
                 do
                     [ "$l" -gt "$len" ] && break
