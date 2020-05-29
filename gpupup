@@ -4,8 +4,7 @@ base="$1"
 loglog="log.log"
 tmplog="tmp.log"
 
-main()
-{
+main() {
     cd "$base" || return 1
 
     dirs="$( find . -mindepth 1 -maxdepth 1 -type d | sed 's/^\.\///' | sort )"
