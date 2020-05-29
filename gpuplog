@@ -1,19 +1,21 @@
 #!/usr/bin/env sh
 
-base="$HOME/data/ig"
+base="$1"
 loglog="log.log"
 tmplog="tmp.log"
 
 main() {
-    num=$(( "$( find "$base/../ig-log" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort -V | tail -n 1 )" + 1 ))
+    cd "$base" || return 1
 
-    mkdir "$base/../ig-log/$num" || return 1
-    touch "$base/$tmplog"
-    cp "$base/$loglog" "$base"/usr_*.log "$base/$tmplog" "$base/../ig-log/$num" || return 1
+    num=$(( "$( find "ig-log" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort -V | tail -n 1 )" + 1 ))
 
-    grep -E ':\sOK' "$base"/usr_*.log "$base/$tmplog" | awk '{print $2}' | sed -e 's/\:$//' -e 's/.*\///' >> "$base/$loglog"
-    sort "$base/$loglog" -o "$base/$loglog"
-    rm "$base"/usr_*.log "$base/$tmplog"
+    mkdir "../ig-log/$num" || return 1
+    touch "$tmplog"
+    cp "$loglog" usr_*.log "$tmplog" "../ig-log/$num" || return 1
+
+    grep -E ':\sOK' usr_*.log "$tmplog" | awk '{print $2}' | sed -e 's/\:$//' -e 's/.*\///' >> "$loglog"
+    sort "$loglog" -o "$loglog"
+    rm usr_*.log "$tmplog"
 }
 
 main || echo "Logging failed on $( date )."

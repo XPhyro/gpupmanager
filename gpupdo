@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-gpupup
-gpuplog
+gpupup "$1"
+gpuplog "$1"
