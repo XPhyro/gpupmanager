@@ -7,14 +7,15 @@ tmplog="tmp.log"
 main() {
     cd "$base" || return 1
 
-    num=$(( "$( find "ig-log" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort -V | tail -n 1 )" + 1 ))
+    num=$(( "$( find "../ig-log" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort -V | tail -n 1 )" + 1 ))
 
     mkdir "../ig-log/$num" || return 1
     touch "$tmplog"
     cp "$loglog" usr_*.log "$tmplog" "../ig-log/$num" || return 1
 
     grep -E ':\sOK' usr_*.log "$tmplog" | awk '{print $2}' | sed -e 's/\:$//' -e 's/.*\///' >> "$loglog"
-    sort "$loglog" -o "$loglog"
+    #sort "$loglog" -o "$loglog"
+    vim "$loglog" -c '%s/"$' -c "sort u" -c wq # I want _ to have precedence over a
     rm usr_*.log "$tmplog"
 }
 
