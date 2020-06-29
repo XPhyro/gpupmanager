@@ -4,6 +4,8 @@ base="$1"
 loglog="log.log"
 tmplog="tmp.log"
 
+sleeptime="3"
+
 main() {
     cd "$base" || return 1
 
@@ -25,6 +27,8 @@ main() {
             gpup -a "$i" "${filesList[@]}" | tee "$tmplog"
             cat "$tmplog" >> "usr_$i.log"
         fi
+
+        printf "\n\nSafe to cancel for %d seconds." "$sleeptime"
    done
 
    rm "$tmplog"
