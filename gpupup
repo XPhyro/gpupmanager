@@ -11,7 +11,7 @@ main() {
 
     echo "$dirs" | while read -r i
     do
-        files="$( find "$i" -mindepth 1 -maxdepth 1 -regextype grep -type f -iregex "^.*[jpg|mp4]" -and -not -iregex "^.*\.part$" -printf "%f\n" | sort )"
+        files="$( find "$i" -mindepth 1 -maxdepth 1 -regextype grep -type f -iregex "^.*\.[jpg|mp4]$" -printf "%f\n" | sort )"
         filesList=()
 
         while read -r j
